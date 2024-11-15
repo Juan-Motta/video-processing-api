@@ -1,0 +1,41 @@
+stages:
+  - build
+  - lint
+  - test
+
+run_build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - cd compose/test
+    - docker-compose build
+  script:
+    - echo "Build complete!"
+
+run_lint:
+  stage: lint
+  image: python:3.11-slim
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - python3 manage.py lint
+
+run_tests:
+  stage: test
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - cd compose/test
+  script:
+    - docker-compose up --abort-on-container-exit
+    - if grep -qE "FAIL Required test coverage of (\d{1,3}(?:\.\d+)?|\.\d+)% not reached" test_output.log; then
+        echo "Test coverage requirement not met!";
+        exit 1;
+      else
+        echo "Test coverage requirement met.";
+      fi

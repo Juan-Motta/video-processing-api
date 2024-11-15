@@ -1,0 +1,26 @@
+services:
+  cloud-api:
+    build:
+      context: ../../.
+      dockerfile: ./compose/test/Dockerfile
+    container_name: cloud-api-test
+    environment:
+      - PYTHONPATH=$PYTHONPATH:$(pwd)/src
+      - DB_USER_TEST=test
+      - DB_PASSWORD_TEST=test
+      - DB_HOST_TEST=postgres
+      - DB_PORT_TEST=5432
+      - DB_NAME_TEST=cloud_db
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=test
+      - POSTGRES_DB=cloud_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

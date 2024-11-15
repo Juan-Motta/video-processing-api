@@ -1,0 +1,28 @@
+services:
+  cloud-api-migrate:
+    build:
+      context: ../../.
+      dockerfile: ./compose/with_db/Dockerfile
+      target: migrate
+    volumes:
+      - ../../:/app
+    container_name: cloud_app_migrate
+    env_file:
+      - ../../.env
+  cloud-api:
+    build:
+      context: ../../.
+      dockerfile: ./compose/base/Dockerfile
+      target: server
+    volumes:
+      - ../../:/app
+    container_name: cloud_app
+    env_file:
+      - ../../.env
+    extra_hosts:
+      - "localhost:host-gateway"
+    ports:
+      - 10000:9000
+    restart: always
+    depends_on:
+      - cloud-api-migrate

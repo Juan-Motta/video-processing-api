@@ -1,0 +1,14 @@
+services:
+  cloud-worker:
+    build:
+      context: ../../.
+      dockerfile: ./compose/base/Dockerfile
+      target: celery
+    volumes:
+      - ../../:/app
+    container_name: cloud_worker
+    env_file:
+      - ../../.env
+    extra_hosts:
+      - "localhost:host-gateway"
+    restart: always

@@ -1,0 +1,29 @@
+services:
+  cloud-api:
+    build:
+      context: ../../.
+      dockerfile: ./compose/base/Dockerfile
+      target: server
+    volumes:
+      - ../../:/app
+    container_name: cloud_app
+    env_file:
+      - ../../.env
+    extra_hosts:
+      - "localhost:host-gateway"
+    ports:
+      - 9000:9000
+    restart: always
+  cloud-worker:
+    build:
+      context: ../../.
+      dockerfile: ./compose/base/Dockerfile
+      target: celery
+    volumes:
+      - ../../:/app
+    container_name: cloud_worker
+    env_file:
+      - ../../.env
+    extra_hosts:
+      - "localhost:host-gateway"
+    restart: always

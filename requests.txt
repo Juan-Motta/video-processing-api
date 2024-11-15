@@ -1,0 +1,25 @@
+# Heltch Check
+curl --location --request GET 'localhost:9000/api/v1/commons/health-check' \
+--header 'Content-Type: application/json' \
+--data '{
+    "usuario": "",
+    "contrasena": ""
+}'
+
+# Create user
+curl --location 'localhost:9000/api/v1/users/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "jualopezmo",
+    "email": "jualopezmo@example.com",
+    "password": "abcd1234",
+    "repeated_password": "abcd1234"
+}'
+
+# Login
+curl --location 'localhost:9000/api/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "jualopezmo",
+    "password": "abcd1234"
+}'
