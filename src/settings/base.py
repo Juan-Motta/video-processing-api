@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     @property
     def DB_URL(self) -> str:
         if self.DB_URL_SOCKET:
-            return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@/{self.DB_NAME}?unix_socket=={self.DB_SOCKET_PATH}"
+            return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@/{self.DB_NAME}?unix_socket=={self.DB_URL_SOCKET}"
         else:
             return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
