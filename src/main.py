@@ -3,7 +3,7 @@ import traceback
 from contextlib import asynccontextmanager
 from datetime import datetime
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
@@ -16,6 +16,9 @@ from src.apps.videos.controllers import METADATA as videos_metadata
 from src.core.logger.base import setup_logging
 from src.routes import router
 from src.settings.base import settings
+from src.core.database.dependencies import get_db
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
 
 logger = logging.getLogger(__name__)
 
@@ -57,8 +60,17 @@ app: FastAPI = FastAPI(
 
 
 @app.get("/")
-async def root():
-    return {"message": "OK"}
+async def root(request: Request, session: Session = Depends(get_db)):
+    try:
+        db = session.execute(text("SELECT 1"))
+    except Exception as e:
+        logger.error(f"Error al consultar la base de datos: {e}")
+        db = None
+    return {
+        "message": "OK",
+        "db": settings.DB_URL,
+        "db_status": "OK" if db else "ERROR",
+    }
 
 
 app.include_router(router, prefix="/api")
