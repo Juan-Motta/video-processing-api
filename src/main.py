@@ -61,14 +61,19 @@ app: FastAPI = FastAPI(
 
 @app.get("/")
 async def root(request: Request, session: Session = Depends(get_db)):
+    return {
+        "message": "OK",
+        "db": settings.DB_URL,
+    }
+
+@app.get("/health")
+async def root(request: Request, session: Session = Depends(get_db)):
     try:
         db = session.execute(text("SELECT 1"))
     except Exception as e:
         logger.error(f"Error al consultar la base de datos: {e}")
         db = None
     return {
-        "message": "OK",
-        "db": settings.DB_URL,
         "db_status": "OK" if db else "ERROR",
     }
 
