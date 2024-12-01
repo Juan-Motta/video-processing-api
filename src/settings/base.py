@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     DB_PORT: int = 5432
     DB_NAME: str = "cloud_db"
     DB_DRIVER: str = "postgresql+psycopg2"
-    DB_SOCKET_PATH: str = ""
+    DB_URL_SOCKET: str = ""
 
     DB_USER_TEST: str = "postgres"
     DB_PASSWORD_TEST: str = "postgres"
@@ -42,7 +42,7 @@ class Settings(BaseSettings):
 
     @property
     def DB_URL(self) -> str:
-        if self.DB_SOCKET_PATH:
+        if self.DB_URL_SOCKET:
             return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@/{self.DB_NAME}?unix_socket=={self.DB_SOCKET_PATH}"
         else:
             return f"{self.DB_DRIVER}://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
