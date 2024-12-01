@@ -11,10 +11,10 @@ from sqlalchemy_json import mutable_json_type
 from src.settings.base import settings
 
 engine: Engine = create_engine(sa.engine.url.URL(
-    drivername=settings.DATABASE_DRIVER,
-    username=settings.DATABASE_USER,
-    password=settings.DATABASE_PASSWORD,
-    database=settings.DATABASE_NAME,
+    drivername=settings.DB_DRIVER,
+    username=settings.DB_USER,
+    password=settings.DB_PASSWORD,
+    database=settings.DB_NAME,
     query={"unix_sock": settings.DB_URL_SOCKET},
 ))
 
