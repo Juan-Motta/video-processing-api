@@ -15,6 +15,8 @@ engine: Engine = create_engine(sa.engine.url.URL(
     username=settings.DB_USER,
     password=settings.DB_PASSWORD,
     database=settings.DB_NAME,
+    host=settings.DB_HOST,
+    port=settings.DB_PORT,
     query={"unix_sock": settings.DB_URL_SOCKET},
 ))
 
