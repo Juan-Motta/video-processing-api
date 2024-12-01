@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432
     DB_NAME: str = "cloud_db"
-    DB_DRIVER: str = "postgresql+psycopg2"
+    DB_DRIVER: str = "postgresql+pg8000"
     DB_URL_SOCKET: str = ""
 
     DB_USER_TEST: str = "postgres"
