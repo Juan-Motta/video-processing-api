@@ -10,7 +10,13 @@ from sqlalchemy_json import mutable_json_type
 
 from src.settings.base import settings
 
-engine: Engine = create_engine(settings.DB_URL)
+engine: Engine = create_engine(sa.engine.url.URL(
+    drivername=settings.DATABASE_DRIVER,
+    username=settings.DATABASE_USER,
+    password=settings.DATABASE_PASSWORD,
+    database=settings.DATABASE_NAME,
+    query={"unix_sock": settings.DB_URL_SOCKET},
+))
 
 session: sessionmaker[Session] = sessionmaker(
     autocommit=False, autoflush=False, bind=engine
