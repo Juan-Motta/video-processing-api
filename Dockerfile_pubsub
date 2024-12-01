@@ -10,5 +10,7 @@ COPY . /app
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+EXPOSE 8080
+
 # Specify the command to run your function
 CMD ["functions-framework", "--target=hello_pubsub", "--source=src.pubsub_cloud", "--port=8080"]
